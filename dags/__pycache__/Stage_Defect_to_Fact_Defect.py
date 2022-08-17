@@ -60,7 +60,6 @@ with DAG(
             );
         """
 
-
     Copy_Insert_Task = PostgresOperator(
         sql = copy_insert_query,
         task_id = "Copy_Insert_Task",
