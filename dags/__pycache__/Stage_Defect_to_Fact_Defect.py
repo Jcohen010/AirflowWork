@@ -29,7 +29,7 @@ with DAG(
         INSERT INTO fact_defect_event
         SELECT "jobID",
         "itemID",
-        "jobID" || "itemID" AS jobitemid,
+        "jobID" || '-' || "itemID" AS jobitemid,
         "customerID",
         datefound,
         inspectshift,
@@ -37,6 +37,7 @@ with DAG(
         defectcode,
         defectdesc,
         caseqty,
+        caseid,
         defectivesamples,
         totalsamples
         FROM "Stage_Defect_Event";"""
