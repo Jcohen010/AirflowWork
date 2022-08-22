@@ -27,10 +27,10 @@ with DAG(
 ) as dag:
     copy_insert_query = """
         INSERT INTO fact_defect_event
-        SELECT "jobID",
-        "itemID",
-        "jobID" || '-' || "itemID" AS jobitemid,
-        "customerID",
+        SELECT jobid,
+        itemid,
+        jobid || '-' || itemid AS jobitemid,
+        customerid,
         datefound,
         inspectshift,
         inspectgluer,
@@ -39,25 +39,29 @@ with DAG(
         caseqty,
         caseid,
         defectivesamples,
-        totalsamples
-        FROM "Stage_Defect_Event";"""
+        totalsamples,
+        caseverdict
+        FROM stage_defect_event;"""
 
     drop_table_query = """
-        DROP TABLE IF EXISTS public."Stage_Defect_Event";
-        CREATE TABLE IF NOT EXISTS public."Stage_Defect_Event"(
-                "jobID" bigint,
-                "itemID" text COLLATE pg_catalog."default",
-                "customerID" text COLLATE pg_catalog."default",
-                datefound text COLLATE pg_catalog."default",
-                inspectshift text COLLATE pg_catalog."default",
-                inspectgluer text COLLATE pg_catalog."default",
-                caseqty bigint,
-                caseid bigint,
-                defectcode text COLLATE pg_catalog."default",
-                defectivesamples bigint,
-                totalsamples bigint,
-                defectdesc character varying(30) COLLATE pg_catalog."default"
-            );
+        DROP TABLE IF EXISTS public.stage_defect_event;
+
+        CREATE TABLE IF NOT EXISTS public.stage_defect_event
+        (
+            jobID bigint,
+            itemid text COLLATE pg_catalog."default",
+            customerid text COLLATE pg_catalog."default",
+            datefound text COLLATE pg_catalog."default",
+            inspectshift text COLLATE pg_catalog."default",
+            inspectgluer text COLLATE pg_catalog."default",
+            caseqty bigint,
+            caseid bigint,
+            defectcode text COLLATE pg_catalog."default",
+            defectivesamples bigint,
+            totalsamples bigint,
+            caseverdict text COLLATE pg_catalog."default",
+            defectdesc character varying(30) COLLATE pg_catalog."default"
+        );
         """
 
     Copy_Insert_Task = PostgresOperator(
